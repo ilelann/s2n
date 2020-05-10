@@ -16,7 +16,6 @@
 #include <sys/param.h>
 
 /* Use usleep */
-#define _XOPEN_SOURCE 500
 #include <unistd.h>
 
 #include <errno.h>

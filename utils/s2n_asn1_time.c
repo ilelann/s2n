@@ -45,11 +45,7 @@ typedef enum parser_state {
 } parser_state;
 
 static inline long get_gmt_offset(struct tm *t) {
-#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__ANDROID__) || defined(ANDROID) || defined(__APPLE__) && defined(__MACH__)
     return t->tm_gmtoff;
-#else
-    return t->__tm_gmtoff;
-#endif
 }
 
 static inline void get_current_timesettings(long *gmt_offset, int *is_dst) {

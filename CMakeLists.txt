@@ -190,7 +190,7 @@ set(CMAKE_C_FLAGS_DEBUGOPT "")
 
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts
         -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
-        -Wno-missing-braces)
+        -Wno-missing-braces -Wno-sign-compare -Wno-type-limits -Wno-unused-parameter)
 
 if(S2N_NO_PQ_ASM)
     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_NO_PQ_ASM)
@@ -232,9 +232,17 @@ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURR
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api> $<INSTALL_INTERFACE:include>)
 
 target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:LibCrypto::Crypto,INTERFACE_INCLUDE_DIRECTORIES>)
+ 
+# allows client projects to disable s2n testing while still testing their stuff
+set(S2N_STANDALONE_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(S2N_STANDALONE_PROJECT ON)
+endif ()
+
+option(S2N_BUILD_TESTING "enable testing for s2n" ${S2N_STANDALONE_PROJECT})
 
 include(CTest)
-if (BUILD_TESTING)
+if (BUILD_TESTING AND S2N_BUILD_TESTING)
     enable_testing()
 
     file(GLOB TESTLIB_SRC "tests/testlib/*.c")

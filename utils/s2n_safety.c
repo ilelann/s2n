@@ -13,7 +13,6 @@
  * permissions and limitations under the License.
  */
 
-#define _GNU_SOURCE             /* For syscall on Linux */
 #undef _POSIX_C_SOURCE          /* For syscall() on Mac OS X */
 
 #include <unistd.h>
