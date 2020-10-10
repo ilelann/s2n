@@ -13,6 +13,8 @@
  * permissions and limitations under the License.
  */
 
+#define _GNU_SOURCE
+
 #include "utils/s2n_asn1_time.h"
 #include "s2n_safety.h"
 
